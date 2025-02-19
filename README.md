@@ -1,4 +1,4 @@
-Simple c++ program for managing library/
+Simple c++ program for managing library
 With this program you can:
   1. Add books
   2. Add members
