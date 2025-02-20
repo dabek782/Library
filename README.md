@@ -7,5 +7,6 @@ With this program you can:
   5. Delete members.
   6. Delete Books.
   7. Members can boorow and return books and error will be shown if given book is already borrowed.
+  8. You can export books and members of library to txt file
 
 Feel free to use that code. I will be updating it if i found bugs and maybe in the future i will give option to add members and books from txt file and save to txt file and also maybe i will try to do ui using sfml
