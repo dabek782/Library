@@ -18,4 +18,9 @@ public:
   void Display() const;
   void AddBook(int BookID);
   void RemoveBook(int BookID);
+  int getMemberID() const;
+  std::string getName() const;
+  std::string getEmail() const;
+  int getPhone() const;
+
 };

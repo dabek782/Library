@@ -29,3 +29,23 @@ bool Book::isBorrowed() const
 {
   return IsBorrowed;
 }
+std::string Book::getAuthor() const
+{
+	return author;
+}
+std::string Book::getTitle() const
+{
+	return title;
+}
+std::string Book::getGenre() const
+{
+	return genre;
+}
+int Book::getPublicationYear() const
+{
+	return publication_year;
+}
+int Book::getBookId() const
+{
+    return bookId;
+}

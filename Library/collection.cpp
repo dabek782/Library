@@ -1,5 +1,7 @@
 #include "collection.h"
 #include <iostream>
+#include <fstream> 
+#include <sstream>
 
 void Collection::AddBook(
     int bookId,
@@ -104,7 +106,83 @@ void Collection::ReturnBook(int BookID, int MemberID)
     }
   }
 }
-Collection::~Collection()
+void Collection::DisplayBorrowedBooks(int BookID)
 {
-  std::cout << "Library was deleted" << std::endl;
+	std::map<int, Book>::iterator i;
+	for (i = books.begin(); i != books.end(); i++)
+	{
+		if (i->first == BookID && i->second.isBorrowed() == true)
+		{
+			i->second.Display();
+
+		}
+		else
+		{
+			std::cout << "Book not found" << std::endl;
+		}
+	}
 }
+void Collection::WriteToFile(std::string Filename)
+{
+	std::ofstream file;
+	file.open(Filename);
+    if (file.is_open())
+    {
+		for (auto& [id, book] : books)
+        {
+			file << "Book" << book.getBookId() << " " << book.getAuthor() << " " << book.getTitle() << " " << book.getGenre() << " " << book.getPublicationYear() << " " << book.isBorrowed() << std::endl;
+        }
+        for (auto& [id, members] : members)
+        {
+            file << "Member" << members.getMemberID() << " " << members.getName() << " " << members.getEmail() << " " << members.getPhone() << std::endl;
+        }
+        
+    }
+}
+void Collection::ReadFromFile(std::string Filename)
+{
+    std::ifstream file;
+    file.open(Filename);
+    int bookId;
+    std::string author;
+    std::string title;
+    std::string genre;
+    int publication_year;
+    bool IsBorrowed;
+    int MemberID;
+    std::string Name;
+    std::string Email;
+    int Phone;
+    if (file.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream iss(line);
+            std::string type;
+            iss >> type;
+            if (type == "Book")
+            {
+                iss >> bookId >> author >> title >> genre >> publication_year >> IsBorrowed;
+                AddBook(bookId, author, title, genre, publication_year, IsBorrowed);
+            }
+            else if (type == "Member")
+            {
+                iss >> MemberID >> Name >> Email >> Phone;
+                AddMember(MemberID, Name, Email, Phone);
+
+            }
+        }
+
+    }
+    else if (!file.is_open())
+    {
+        std::cout << "File not found" << std::endl;
+    }
+
+}
+
+Collection::~Collection()
+    {
+        std::cout << "Library was deleted" << std::endl;
+    }

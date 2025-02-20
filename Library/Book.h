@@ -21,4 +21,9 @@ public:
   void Display() const;
   void Change_status(bool status);
   bool isBorrowed() const;
+  std::string getAuthor() const;
+  std::string getTitle() const;
+  std::string getGenre() const;
+  int getPublicationYear() const;
+  int getBookId() const;
 };

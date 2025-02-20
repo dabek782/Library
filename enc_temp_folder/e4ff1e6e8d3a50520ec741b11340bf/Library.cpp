@@ -26,8 +26,8 @@ int main()
     std::cout << "10. Borrow a book" << std::endl;
     std::cout << "11. Return a book" << std::endl;
 	std::cout << "12. Write library to file" << std::endl;
-	//std::cout << "13. Extract libreary from file" << std::endl;
-    std::cout << "13. Exit" << std::endl;
+	std::cout << "13. Extract libreary from file" << std::endl;
+    std::cout << "14. Exit" << std::endl;
     std::cin >> choice;
     std::cin.ignore();
     switch (choice)
@@ -181,14 +181,14 @@ int main()
 	  c.WriteToFile(Filename);
 	  break;
     }
-  //  case 13:
-  //  {
-		//std::string Filename;
-		//std::cout << "Enter the filename of file that is in the same folder where this program or enter path to this file" << std::endl;
-		//getline(std::cin >> std::ws, Filename);
-		//c.ReadFromFile(Filename);
-		//break;
-  //  }
+    case 13:
+    {
+		std::string Filename;
+		std::cout << "Enter the filename of file that is in the same folder where this program or enter path to this file" << std::endl;
+		getline(std::cin >> std::ws, Filename);
+		c.ReadFromFile(Filename);
+		break;
+    }
     case 14:
     {
       exit = true;

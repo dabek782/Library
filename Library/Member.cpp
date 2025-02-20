@@ -44,3 +44,19 @@ void Member::RemoveBook(int BookID)
     std::cout << "Book not found" << std::endl;
   }
 }
+int Member::getMemberID() const
+{
+	return MemberID;
+}
+std::string Member::getName() const
+{
+	return Name;
+}
+std::string Member::getEmail() const
+{
+	return Email;
+}
+int Member::getPhone() const
+{
+	return Phone;
+}

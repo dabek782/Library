@@ -24,5 +24,8 @@ public:
   void RemoveMember(int MemberID);
   void BorrowBook(int BookID, int MemberID);
   void ReturnBook(int BookID, int MemberID);
+  void DisplayBorrowedBooks(int BookID);
+  void WriteToFile(std::string Filename);
+  void ReadFromFile(std::string Filename);
   ~Collection();
 };
