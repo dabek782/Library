@@ -1,4 +1,0 @@
-Book1 a b c 2021 0
-Book2 d e f 1998 0
-Member1 z x 123
-Member2 f g 321
