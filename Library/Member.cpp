@@ -2,8 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cwchar>    
+#include <io.h>      
+#include <fcntl.h> 
 
-Member::Member(int MemberID, std::string Name, std::string Email, int Phone)
+Member::Member(int MemberID, std::u8string Name, std::u8string Email, int Phone)
     : MemberID(MemberID), Name(Name), Email(Email), Phone(Phone)
 {
 }
@@ -11,8 +14,8 @@ Member::Member(int MemberID, std::string Name, std::string Email, int Phone)
 void Member::Display() const
 {
   std::cout << "Member ID: " << MemberID << std::endl;
-  std::cout << "Name: " << Name << std::endl;
-  std::cout << "Email: " << Email << std::endl;
+  std::cout << "Name: " << std::string(Name.begin() , Name.end()) << std::endl;
+  std::cout << "Email: " << std::string(Email.begin(), Email.end()) << std::endl;
   std::cout << "Phone: " << Phone << std::endl;
   std::cout << "Books: ";
   if (BorrowedBooks.size() == 0)
@@ -48,11 +51,11 @@ int Member::getMemberID() const
 {
 	return MemberID;
 }
-std::string Member::getName() const
+std::u8string Member::getName() const
 {
 	return Name;
 }
-std::string Member::getEmail() const
+std::u8string Member::getEmail() const
 {
 	return Email;
 }

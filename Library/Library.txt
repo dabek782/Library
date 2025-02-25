@@ -1,0 +1,10 @@
+ÔªøBook |1|J.K.Rowling|Harry Potter|Fantasy|1997|0
+
+Book |2|Andrzej Sapkowski|Wied´min: Ostatnie æyczenie|Fantasy|1993|0
+
+Book |3|Henryk Sienkiewicz|Quo Vadis|Historical|1896|0
+
+Member |10|ùukasz Nowak|àukasz.nowak@abc.com|1234567890
+
+Member |11|Zofia Ω¢àkiewska|zofia.zolkiewska@onet.pl|987654321
+

@@ -3,9 +3,14 @@
 #include <vector>
 #include <map>
 #include "collection.h"
+#include <windows.h>
+#include <io.h>
+#include <fcntl.h>
+#include <cwchar> 
 
 int main()
 {
+  setlocale(LC_ALL,"");
   bool exit = false;
   Collection c;
   int choice;
@@ -26,8 +31,8 @@ int main()
     std::cout << "10. Borrow a book" << std::endl;
     std::cout << "11. Return a book" << std::endl;
 	std::cout << "12. Write library to file" << std::endl;
-	//std::cout << "13. Extract libreary from file" << std::endl;
-    std::cout << "13. Exit" << std::endl;
+	std::cout << "13. Extract libreary from file" << std::endl;
+    std::cout << "14. Exit" << std::endl;
     std::cin >> choice;
     std::cin.ignore();
     switch (choice)
@@ -35,11 +40,12 @@ int main()
     case 1:
     {
       int bookId;
-      std::string author;
-      std::string title;
-      std::string genre;
+      std::u8string author;
+      std::u8string title;
+      std::u8string genre;
       int publication_year;
       bool IsBorrowed;
+	  std::string temp;
       std::cout << "Enter the book ID" << std::endl;
       std::cin >> bookId;
       if (std::cin.fail())
@@ -50,11 +56,15 @@ int main()
         std::cin >> bookId;
       }
       std::cout << "Enter the author's name" << std::endl;
-      getline(std::cin >> std::ws, author);
+
+      getline(std::cin >> std::ws, temp);
+	  author = std::u8string(temp.begin(), temp.end());
       std::cout << "Enter the title" << std::endl;
-      getline(std::cin >> std::ws, title);
+      getline(std::cin >> std::ws, temp);
+	  title = std::u8string(temp.begin(), temp.end());
       std::cout << "Enter the genre" << std::endl;
-      getline(std::cin >> std::ws, genre);
+      getline(std::cin >> std::ws, temp);
+	  genre = std::u8string(temp.begin(), temp.end());
       std::cout << "Enter the publication year" << std::endl;
       std::cin >> publication_year;
       std::cout << "Is the book borrowed? 1 for yes, 0 for no" << std::endl;
@@ -72,9 +82,10 @@ int main()
     case 2:
     {
       int MemberID;
-      std::string Name;
-      std::string Email;
+      std::u8string Name;
+      std::u8string Email;
       std::string Phone;
+	  std::string temp;
       std::cout << "Enter the member ID" << std::endl;
       std::cin >> MemberID;
       if (std::cin.fail())
@@ -86,9 +97,11 @@ int main()
       }
 
       std::cout << "Enter the member's name" << std::endl;
-      getline(std::cin >> std::ws, Name);
+      getline(std::cin >> std::ws, temp);
+	  Name = std::u8string(temp.begin(), temp.end());
       std::cout << "Enter the member's email" << std::endl;
-      getline(std::cin >> std::ws, Email);
+      getline(std::cin >> std::ws, temp);
+	  Email = std::u8string(temp.begin(), temp.end());
       std::cout << "Enter the member's phone number" << std::endl;
       getline(std::cin >> std::ws, Phone);
       c.AddMember(MemberID, Name, Email, std::stoi(Phone));
@@ -175,20 +188,24 @@ int main()
     }
 	case 12:
     {
-	  std::string Filename;
+	  std::u8string Filename;
+	  std::string temp;
 	  std::cout << "Enter the filename or you can write the name of a file and it will be created in the same folder where files for this program are." << std::endl;
-	  getline(std::cin >> std::ws, Filename);
+	  getline(std::cin >> std::ws, temp);
+	  Filename = std::u8string(temp.begin(), temp.end());
 	  c.WriteToFile(Filename);
 	  break;
     }
-  //  case 13:
-  //  {
-		//std::string Filename;
-		//std::cout << "Enter the filename of file that is in the same folder where this program or enter path to this file" << std::endl;
-		//getline(std::cin >> std::ws, Filename);
-		//c.ReadFromFile(Filename);
-		//break;
-  //  }
+    case 13:
+    {
+		std::u8string Filename;
+		std::string temp;
+		std::cout << "Enter the filename of file that is in the same folder where this program or enter path to this file" << std::endl;
+		getline(std::cin >> std::ws, temp);
+		Filename = std::u8string(temp.begin(), temp.end());
+		c.ReadFromFile(Filename);
+		break;
+    }
     case 14:
     {
       exit = true;

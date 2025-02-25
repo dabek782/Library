@@ -5,16 +5,16 @@
 
 void Collection::AddBook(
     int bookId,
-    std::string author,
-    std::string title,
-    std::string genre,
+    std::u8string author,
+    std::u8string title,
+    std::u8string genre,
     int publication_year,
     bool IsBorrowed)
 {
   books.emplace(bookId, Book(bookId, author, title, genre, publication_year, IsBorrowed));
   std::cout << "Book was added to library" << std::endl;
 }
-void Collection::AddMember(int MemberID, std::string Name, std::string Email, int Phone)
+void Collection::AddMember(int MemberID, std::u8string Name, std::u8string Email, int Phone)
 {
   members.emplace(MemberID, Member(MemberID, Name, Email, Phone));
   std::cout << "Member was given library id" << std::endl;
@@ -122,36 +122,37 @@ void Collection::DisplayBorrowedBooks(int BookID)
 		}
 	}
 }
-void Collection::WriteToFile(std::string Filename)
+void Collection::WriteToFile(std::u8string Filename)
 {
 	std::ofstream file;
-	file.open(Filename);
+	file.open(std::string(Filename.begin(),Filename.end()), std::ios::binary);
     if (file.is_open())
     {
+        file << "\xEF\xBB\xBF";
 		for (auto& [id, book] : books)
         {
-			file << "Book" << book.getBookId() << " " << book.getAuthor() << " " << book.getTitle() << " " << book.getGenre() << " " << book.getPublicationYear() << " " << book.isBorrowed() << std::endl;
+			file << "Book"  << "|" << book.getBookId() << "|" << std::string(book.getAuthor().begin() , book.getAuthor().end()) << "|" <<std::string(book.getTitle().begin(), book.getTitle().end()) << "|" << std::string(book.getGenre().begin(), book.getGenre().end()) << "|" << book.getPublicationYear() << "|" << book.isBorrowed() << "\n" << std::endl;
         }
         for (auto& [id, members] : members)
         {
-            file << "Member" << members.getMemberID() << " " << members.getName() << " " << members.getEmail() << " " << members.getPhone() << std::endl;
+            file << "Member" << "|" << members.getMemberID() << "|" << std::string(members.getName().begin(), members.getName().end()) << "|" << std::string(members.getEmail().begin(), members.getEmail().end()) << "|" << members.getPhone() << "\n" << std::endl;
         }
         
     }
 }
-void Collection::ReadFromFile(std::string Filename)
+void Collection::ReadFromFile(std::u8string Filename)
 {
     std::ifstream file;
-    file.open(Filename);
+    file.open(std::string(Filename.begin(), Filename.end()), std::ios::binary);
     int bookId;
-    std::string author;
-    std::string title;
-    std::string genre;
+    std::u8string author;
+    std::u8string title;
+    std::u8string genre;
     int publication_year;
     bool IsBorrowed;
     int MemberID;
-    std::string Name;
-    std::string Email;
+    std::u8string Name;
+    std::u8string Email;
     int Phone;
     if (file.is_open())
     {
@@ -159,16 +160,26 @@ void Collection::ReadFromFile(std::string Filename)
         while (std::getline(file, line))
         {
             std::istringstream iss(line);
-            std::string type;
+            std::string type, field;
             iss >> type;
+			std::getline(iss, type , '|');
             if (type == "Book")
             {
-                iss >> bookId >> author >> title >> genre >> publication_year >> IsBorrowed;
+                std::getline(iss, field, '|'); bookId = std::stoi(field);
+				std::getline(iss, field, '|'); std::string(author.begin(), author.end()) = field;
+				std::getline(iss, field, '|'); std::string(title.begin() , title.end()) = field;
+				std::getline(iss, field, '|'); std::string(genre.begin(), genre.end()) = field;
+				std::getline(iss, field, '|'); publication_year = std::stoi(field);
+				std::getline(iss, field, '|'); IsBorrowed = std::stoi(field);
+
                 AddBook(bookId, author, title, genre, publication_year, IsBorrowed);
             }
             else if (type == "Member")
             {
-                iss >> MemberID >> Name >> Email >> Phone;
+                std::getline(iss, field, '|'); MemberID = std::stoi(field);
+                std::getline(iss, field, '|'); std::string(Name.begin(), Name.end()) = field;
+                std::getline(iss, field, '|'); std::string(Email.begin() ,Email.end()) = field;
+                std::getline(iss, field, '|'); Phone = std::stoi(field);
                 AddMember(MemberID, Name, Email, Phone);
 
             }

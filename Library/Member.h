@@ -4,8 +4,8 @@
 class Member
 {
 private:
-  std::string Name;
-  std::string Email;
+  std::u8string Name;
+  std::u8string Email;
   int Phone;
 
 protected:
@@ -14,13 +14,13 @@ protected:
 
 public:
   Member() = default;
-  Member(int MemberID, std::string Name, std::string Email, int Phone);
+  Member(int MemberID, std::u8string Name, std::u8string Email, int Phone);
   void Display() const;
   void AddBook(int BookID);
   void RemoveBook(int BookID);
   int getMemberID() const;
-  std::string getName() const;
-  std::string getEmail() const;
+  std::u8string getName() const;
+  std::u8string getEmail() const;
   int getPhone() const;
 
 };
